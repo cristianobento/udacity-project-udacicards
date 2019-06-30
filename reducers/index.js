@@ -12,6 +12,18 @@ function entries(state = {}, action) {
         ...state,
         ...action.deck
       };
+    case ADD_CARD:
+      const newCard = {
+        question: action.question,
+        answer: action.answer
+      };
+      return {
+        ...state,
+        [action.deckTitle]: {
+          ...state[action.deckTitle],
+          questions: state[action.deckTitle].questions.concat(newCard)
+        }
+      };
     default:
       return state;
   }

@@ -37,6 +37,17 @@ export function fetchDecks() {
   });
 }
 
+export function addCardToDeck(question, answer, deckTitle) {
+  const newCard = {
+    question: question,
+    answer: answer
+  };
+  return AsyncStorage.mergeItem(
+    CARD_STORAGE_KEY,
+    JSON.stringify({ [deckTitle]: newCard })
+  );
+}
+
 export function submitDeck(deckName) {
   return AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deckName));
 }

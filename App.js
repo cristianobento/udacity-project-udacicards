@@ -13,6 +13,8 @@ import entries from "./reducers";
 import DeckList from "./components/DeckList";
 import Deck from "./components/Deck";
 import AddDeck from "./components/AddDeck";
+import AddCard from "./components/AddCard";
+import Quiz from "./components/Quiz";
 import { white, purple } from "./utils/colors";
 
 function DecksStatusBar({ backgroundColor, ...props }) {
@@ -71,6 +73,24 @@ const Stack = createStackNavigator({
   },
   Deck: {
     screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    }
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    }
+  },
+  Quiz: {
+    screen: Quiz,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
