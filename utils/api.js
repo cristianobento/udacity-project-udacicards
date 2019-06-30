@@ -3,7 +3,7 @@ import { AsyncStorage } from "react-native";
 const DECK_STORAGE_KEY = "flashcards:decks";
 const CARD_STORAGE_KEY = "flashcards:cards";
 
-let data = {
+let defaultData = {
   React: {
     title: "React",
     questions: [
@@ -32,7 +32,11 @@ let data = {
 export function fetchDecks() {
   return AsyncStorage.getItem(DECK_STORAGE_KEY).then(results => {
     return results === null
-      ? AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(data))
+      ? AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(defaultData))
       : JSON.parse(results);
   });
+}
+
+export function submitDeck(deckName) {
+  return AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deckName));
 }
