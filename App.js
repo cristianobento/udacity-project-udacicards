@@ -1,13 +1,17 @@
 import React, { Component } from "react";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import { StyleSheet, Text, View, StatusBar } from "react-native";
 import {
   createMaterialTopTabNavigator,
-  createAppContainer,
-  createStackNavigator
+  createStackNavigator,
+  createAppContainer
 } from "react-navigation";
 import Constants from "expo-constants";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import entries from "./reducers";
 import DeckList from "./components/DeckList";
+import Deck from "./components/Deck";
 import AddDeck from "./components/AddDeck";
 import { white, purple } from "./utils/colors";
 
@@ -19,7 +23,7 @@ function DecksStatusBar({ backgroundColor, ...props }) {
   );
 }
 
-const Tabs = {
+const routes = {
   DeckList: {
     screen: DeckList,
     navigationOptions: {
@@ -41,6 +45,9 @@ const Tabs = {
 };
 
 const navigationOptions = {
+  navigationOptions: {
+    header: null
+  },
   tabBarOptions: {
     activeTintColor: white,
     style: {
@@ -57,17 +64,35 @@ const navigationOptions = {
   }
 };
 
-const TabNav = createAppContainer(
-  createMaterialTopTabNavigator(Tabs, navigationOptions)
-);
+const tabs = createMaterialTopTabNavigator(routes, navigationOptions);
+const Stack = createStackNavigator({
+  Home: {
+    screen: tabs
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple
+      }
+    }
+  }
+});
+
+const TabNav = createAppContainer(Stack);
+
+const store = createStore(entries);
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <DecksStatusBar backgroundColor={purple} barStyle="light-content" />
-        <TabNav />
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <DecksStatusBar backgroundColor={purple} barStyle="light-content" />
+          <TabNav />
+        </View>
+      </Provider>
     );
   }
 }
